@@ -1,0 +1,5 @@
+node_modules/
+.env
+viralbot.db
+viralbot.log
+*.log

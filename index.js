@@ -128,6 +128,20 @@ app.put('/api/accounts/:handle/status', (req, res) => {
   res.json({ success: true });
 });
 
+
+// Delete account
+app.delete('/api/accounts/:handle', (req, res) => {
+  const { handle } = req.params;
+  try {
+    dbHelpers.run('DELETE FROM accounts WHERE handle = ?', [handle]);
+    dbHelpers.run('DELETE FROM video_queue WHERE account_id = ?', [handle]);
+    logger.info('Account deleted: ' + handle);
+    res.json({ success: true });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 app.get('/api/system', (req, res) => {
   res.json({
     version: '1.0.0',
